@@ -1,0 +1,105 @@
+*::before, *::after {
+  font-family: 'Font Awesome 6 Free';
+  font-weight: 900;
+}
+
+h1 {
+  font-size: 50px;
+  font-weight: 100;
+}
+
+.clock,
+.setting,
+.setting-part,
+.set-length,
+.timer-wrapper,
+.timer,
+.timer-controls {
+  display: flex;
+}
+
+.clock,
+.setting-part,
+.timer-wrapper,
+.timer {
+  flex-direction: column;
+  align-items: center;
+}
+
+.clock {
+  width: 450px;
+  gap: 20px;
+}
+
+.setting {
+  width: 100%;
+  justify-content: space-between;
+}
+
+.set-length {
+  justify-content: space-evenly;
+  width: 80%;
+}
+
+.decrement::before {
+  content: '\f078  ';
+}
+
+.increment::before {
+  content: '\f077  ';
+}
+
+.timer-wrapper, .timer-controls {
+  gap: 10px;
+}
+
+.timer {
+  border: 7px solid #13353a;
+  border-radius: 50px;
+  padding: 20px 40px 10px;
+}
+
+#time-left {
+  font-size: 80px;
+}
+
+#start_stop::before {
+  content: '\f04b  ';
+  margin-right: -8px;
+}
+
+#start_stop::after {
+  content: '\f04c  ';
+}
+
+#reset::before {
+  content: '\f2f1  ';
+}
+
+.hover {
+  cursor: pointer;
+}
+
+@media (max-width: 480px) {  
+  h1 {
+    font-size: 34px;
+  }
+  
+  .clock {
+    width: 100%;
+  }
+
+  .setting {
+    width: 100%;
+    gap: 30px;
+  }
+  
+  .timer {
+    border-radius: 20px;
+    padding: 10px 20px 5px;
+  }
+  
+  #time-left {
+    font-size: 50px;
+  }
+}
