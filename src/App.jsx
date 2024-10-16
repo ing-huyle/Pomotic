@@ -1,93 +1,73 @@
 import './styles/App.scss';
-import { useState, useEffect, useRef } from 'react';
-
-const initialState = {
-  breakLength: 5,
-  sessionLength: 25,
-  minutes: 25,
-  seconds: 0,
-  timerLabel: 'Session'
-}
-
-const formatNumber = (number) => number > -1 && number < 10 ? '0' + number : number.toString();
+import { useEffect, useRef } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { breakActions } from './breakSlice';
+import { sessionActions } from './sessionSlice';
+import { timerActions, tick } from './timerSlice';
 
 const App = () => {
-  const [breakLength, setBreakLength] = useState(initialState.breakLength);
-  const [sessionLength, setSessionLength] = useState(initialState.sessionLength);
-  const [timer, setTimer] = useState({
-    minutes: formatNumber(initialState.minutes),
-    seconds: formatNumber(initialState.seconds)
-  });
-  const [timerLabel, setTimerLabel] = useState(initialState.timerLabel);
-  const [isRunning, setIsRunning] = useState(false);
   const intervalRef = useRef(null);
   const audioRef = useRef(null);
+  const breakLength = useSelector((state) => state.break.breakLength);
+  const sessionLength = useSelector((state) => state.session.sessionLength);
+  const { minutes, seconds, timerLabel, isRunning } = useSelector((state) => state.timer);
+  const dispatch = useDispatch();
 
-  const adjustLength = (setLength, increment, isSession) => {
-    if (!isRunning) {
-      setLength((prev) => {
-        const newLength = prev + increment;
+  const handleClickBreak = (event) => {
+    let increment;
+    if (event.target.id === 'break-decrement') {
+      dispatch(breakActions.decrementBreakLength())
+      increment = -1;
+    } else {
+      dispatch(breakActions.incrementBreakLength());
+      increment = +1;
+    }
 
-        if (newLength >= 1 && newLength <= 60) {
-          if ((!isSession && timerLabel === 'Break') || (isSession && timerLabel === 'Session')) {
-            setTimer(({ minutes: formatNumber(newLength), seconds: '00' }));  
-          }
-          return newLength;
-        }
-
-        return prev;
-      });
+    if (timerLabel === 'Break') {
+      dispatch(timerActions.setTimer({ minutes: Math.min(Math.max(breakLength + increment, 1), 60), seconds: 0 }));
     }
   }
 
-  const handleClickBreakDecrement = () => adjustLength(setBreakLength, -1, false);
-  const handleClickBreakIncrement = () => adjustLength(setBreakLength, 1, false);
-  const handleClickSessionDecrement = () => adjustLength(setSessionLength, -1, true);
-  const handleClickSessionIncrement = () => adjustLength(setSessionLength, 1, true);
+  const handleClickSession = (event) => {
+    let increment;
+    if (event.target.id === 'session-decrement') {
+      dispatch(sessionActions.decrementSessionLength())
+      increment = -1;
+    } else {
+      dispatch(sessionActions.incrementSessionLength());
+      increment = +1;
+    }
 
-  const handleClickStartStop = () => setIsRunning((prev) => !prev);
+    if (timerLabel === 'Session') {
+      dispatch(timerActions.setTimer({ minutes: Math.min(Math.max(sessionLength + increment, 1), 60), seconds: 0 }));
+    }
+  }
+
+  const handleClickStartStop = () => {
+    dispatch(timerActions.setIsRunning(!isRunning))
+  };
 
   const handleClickReset = () => {
-    setBreakLength(initialState.breakLength);
-    setSessionLength(initialState.sessionLength);
-    setTimer({
-      minutes: formatNumber(initialState.minutes),
-      seconds: formatNumber(initialState.seconds)
-    });
-    setIsRunning(false)
+    dispatch(breakActions.setBreakLength(5))
+    dispatch(sessionActions.setSessionLength(25))
+    dispatch(timerActions.setTimer({ minutes: 25, seconds: 0 }));
+    dispatch(timerActions.setIsRunning(false));
     clearInterval(intervalRef.current);
-    console.log(audioRef);
     audioRef.current.pause();
     audioRef.current.currentTime = 0;
   }
 
-  const tick = () => {
-    setTimer((prev) => {
-      const { minutes, seconds } = prev;
-
-      if (seconds === '00' && minutes === '00') {
-        audioRef.current.play();
-        setTimerLabel((prev) => prev === 'Session' ? 'Break' : 'Session');
-        return {
-          minutes: formatNumber(timerLabel === 'Session' ? breakLength : sessionLength),
-          seconds: '00'
-        };
-      } else if (seconds === '00') {
-        return { minutes: formatNumber(minutes - 1), seconds: 59 };
-      } else {
-        return { ...prev, seconds: formatNumber(seconds - 1) };
-      }
-    });
-  };
-
   useEffect(() => {
     if (isRunning) {
-      intervalRef.current = setInterval(tick, 1000);
+      if (seconds === '00' && minutes === '00') {
+        audioRef.current.play();
+      }
+      intervalRef.current = setInterval(() => {dispatch(tick(breakLength, sessionLength));}, 1000);
     } else {
       clearInterval(intervalRef.current);
     }
     return () => clearInterval(intervalRef.current);
-  }, [isRunning, timerLabel]);
+  }, [isRunning, timerLabel, seconds]);
 
   return (
     <div className='clock'>
@@ -96,24 +76,24 @@ const App = () => {
         <div className='setting-part'>
           <div id='break-label'>Break Length</div>
           <div className='set-length'>
-            <div id='break-decrement' className='decrement hover' onClick={handleClickBreakDecrement}></div>
+            <div id='break-decrement' className='decrement hover' onClick={handleClickBreak}></div>
             <div id='break-length'>{breakLength}</div>
-            <div id='break-increment' className='increment hover' onClick={handleClickBreakIncrement}></div>
+            <div id='break-increment' className='increment hover' onClick={handleClickBreak}></div>
           </div>
         </div>
         <div className='setting-part'>
           <div id='session-label'>Session Length</div>
           <div className='set-length'>
-            <div id='session-decrement' className='decrement hover' onClick={handleClickSessionDecrement}></div>
+            <div id='session-decrement' className='decrement hover' onClick={handleClickSession}></div>
             <div id='session-length'>{sessionLength}</div>
-            <div id='session-increment' className='increment hover' onClick={handleClickSessionIncrement}></div>
+            <div id='session-increment' className='increment hover' onClick={handleClickSession}></div>
           </div>
         </div>
       </div>
       <div className='timer-wrapper'>
         <div className='timer'>
           <div id='timer-label'>{timerLabel}</div>
-          <div id='time-left'>{timer.minutes}:{timer.seconds}</div>
+          <div id='time-left'>{minutes}:{seconds}</div>
         </div>
         <div className='timer-controls'>
           <div id='start_stop' className='hover' onClick={handleClickStartStop}>
