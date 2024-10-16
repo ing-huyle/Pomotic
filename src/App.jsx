@@ -1,9 +1,9 @@
 import './styles/App.scss';
 import { useEffect, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { breakActions } from './breakSlice';
-import { sessionActions } from './sessionSlice';
-import { timerActions, tick } from './timerSlice';
+import { breakActions } from './redux-toolkit/breakSlice';
+import { sessionActions } from './redux-toolkit/sessionSlice';
+import { timerActions, tick } from './redux-toolkit/timerSlice';
 
 const App = () => {
   const intervalRef = useRef(null);
