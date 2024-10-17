@@ -4,6 +4,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import { breakActions } from './redux-toolkit/breakSlice';
 import { sessionActions } from './redux-toolkit/sessionSlice';
 import { timerActions, tick } from './redux-toolkit/timerSlice';
+import LengthSetting from './components/LengthSetting';
+import Timer from './components/Timer';
 
 const App = () => {
   const intervalRef = useRef(null);
@@ -73,35 +75,10 @@ const App = () => {
     <div className='clock'>
       <h1>25 + 5 Clock</h1>
       <div className='setting'>
-        <div className='setting-part'>
-          <div id='break-label'>Break Length</div>
-          <div className='set-length'>
-            <div id='break-decrement' className='decrement hover' onClick={handleClickBreak}></div>
-            <div id='break-length'>{breakLength}</div>
-            <div id='break-increment' className='increment hover' onClick={handleClickBreak}></div>
-          </div>
-        </div>
-        <div className='setting-part'>
-          <div id='session-label'>Session Length</div>
-          <div className='set-length'>
-            <div id='session-decrement' className='decrement hover' onClick={handleClickSession}></div>
-            <div id='session-length'>{sessionLength}</div>
-            <div id='session-increment' className='increment hover' onClick={handleClickSession}></div>
-          </div>
-        </div>
+        <LengthSetting isSession={false} length={breakLength} handleClick={handleClickBreak} />
+        <LengthSetting isSession={true} length={sessionLength} handleClick={handleClickSession} />
       </div>
-      <div className='timer-wrapper'>
-        <div className='timer'>
-          <div id='timer-label'>{timerLabel}</div>
-          <div id='time-left'>{minutes}:{seconds}</div>
-        </div>
-        <div className='timer-controls'>
-          <div id='start_stop' className='hover' onClick={handleClickStartStop}>
-            <audio id='beep' src='./src/alarm-beep.wav' ref={audioRef} autoPlay></audio>
-          </div>
-          <div id='reset' className='hover' onClick={handleClickReset}></div>
-        </div>
-      </div>
+      <Timer timerLabel={timerLabel} minutes={minutes} seconds={seconds} handleClickStartStop={handleClickStartStop} audioRef={audioRef} handleClickReset={handleClickReset} />
     </div>
   )
 }

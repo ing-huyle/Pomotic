@@ -1,0 +1,31 @@
+*::before, *::after {
+  font-family: 'Font Awesome 6 Free';
+  font-weight: 900;
+}
+
+.setting-part,
+.set-length {
+  display: flex;
+}
+
+.setting-part {
+  flex-direction: column;
+  align-items: center;
+}
+
+.set-length {
+  justify-content: space-evenly;
+  width: 80%;
+}
+
+.decrement::before {
+  content: '\f078  ';
+}
+
+.increment::before {
+  content: '\f077  ';
+}
+
+.hover {
+  cursor: pointer;
+}
