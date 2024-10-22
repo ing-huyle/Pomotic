@@ -1,8 +1,8 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const initialState = {
-  minutes: '25',
-  seconds: '00',
+  minutes: '00',
+  seconds: '01',
   timerLabel: 'Session',
   isRunning: false
 }
@@ -29,7 +29,7 @@ const timerSlice = createSlice({
 export const timerReducer = timerSlice.reducer;
 export const timerActions = timerSlice.actions;
 
-export const tick = (breakLength, sessionLength) => (dispatch, getState) => {
+export const tick = (breakLength, sessionLength, audioRef) => (dispatch, getState) => {
   const { minutes, seconds, timerLabel } = getState().timer;
 
   if (seconds === '00' && minutes === '00') {
@@ -38,6 +38,7 @@ export const tick = (breakLength, sessionLength) => (dispatch, getState) => {
       minutes: timerLabel === 'Session' ? breakLength : sessionLength,
       seconds: 0
     }));
+    audioRef.current.play();
   } else if (seconds === '00') {
     dispatch(timerActions.setTimer({
       minutes: minutes - 1,

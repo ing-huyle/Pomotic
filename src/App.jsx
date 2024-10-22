@@ -1,5 +1,5 @@
 import './styles/App.scss';
-import { useEffect, useRef } from 'react';
+import { useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { breakActions } from './redux-toolkit/breakSlice';
 import { sessionActions } from './redux-toolkit/sessionSlice';
@@ -46,30 +46,30 @@ const App = () => {
   }
 
   const handleClickStartStop = () => {
-    dispatch(timerActions.setIsRunning(!isRunning))
+    const newIsRunning = !isRunning;
+    dispatch(timerActions.setIsRunning(newIsRunning))
+    
+    if (intervalRef) {
+      clearInterval(intervalRef.current);
+    }
+
+    if (newIsRunning) {
+      intervalRef.current = setInterval(() => {dispatch(tick(breakLength, sessionLength, audioRef));}, 1000);
+    } else {
+      clearInterval(intervalRef.current);
+    }
   };
 
   const handleClickReset = () => {
     dispatch(breakActions.setBreakLength(5))
     dispatch(sessionActions.setSessionLength(25))
+    dispatch(timerActions.setTimerLabel('Session'));
     dispatch(timerActions.setTimer({ minutes: 25, seconds: 0 }));
     dispatch(timerActions.setIsRunning(false));
     clearInterval(intervalRef.current);
     audioRef.current.pause();
     audioRef.current.currentTime = 0;
   }
-
-  useEffect(() => {
-    if (isRunning) {
-      if (seconds === '00' && minutes === '00') {
-        audioRef.current.play();
-      }
-      intervalRef.current = setInterval(() => {dispatch(tick(breakLength, sessionLength));}, 1000);
-    } else {
-      clearInterval(intervalRef.current);
-    }
-    return () => clearInterval(intervalRef.current);
-  }, [isRunning, timerLabel, seconds]);
 
   return (
     <div className='clock'>
