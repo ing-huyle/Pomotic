@@ -1,2 +1,6 @@
-# 25+5Clock2
-This project works the same as the 25+5Clock1 except it uses Redux toolkit and multiple components to demonstrate my knowledge.
+# 25+5 Clock
+A customizable pomodoro timer. Built with React and Redux toolkit.
+
+## Skills & Technologies Used
+
+- Node.js, Vite, React, Redux toolkit
