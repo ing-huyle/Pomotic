@@ -1,5 +1,5 @@
-# Pomodoro
-A customizable pomodoro timer. Built with React and Redux toolkit.
+# WorkTrackr
+A customizable worktime tracker and pomodoro timer ([see demo](https://worktrackr.netlify.app/)). Built with React and Redux toolkit.
 
 ## Skills & Technologies Used
 
