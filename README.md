@@ -1,4 +1,4 @@
-# 25+5 Clock
+# Pomodoro
 A customizable pomodoro timer. Built with React and Redux toolkit.
 
 ## Skills & Technologies Used
