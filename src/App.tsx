@@ -69,7 +69,7 @@ const App = () => {
 
   return (
     <div className='clock'>
-      <h1>Pomodoro</h1>
+      <h1>WorkTrackr</h1>
       <div className='setting'>
         <LengthSetting isSession={false} length={breakLength} handleClick={handleClickBreak} />
         <LengthSetting isSession={true} length={sessionLength} handleClick={handleClickSession} />
