@@ -1,6 +1,7 @@
 import '../styles/LengthSetting.scss';
+import { LengthSettingType } from '../types';
 
-const LengthSetting = ({ isSession, length, handleClick }) => {
+const LengthSetting = ({ isSession, length, handleClick }: LengthSettingType) => {
   return (
     <div className='setting-part'>
       <div id={isSession ? 'session-label' : 'break-label'}>{isSession ? 'Session' : 'Break'} Length</div>

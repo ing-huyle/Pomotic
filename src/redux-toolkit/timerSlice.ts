@@ -1,4 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
+import { AppDispatch } from '../types';
 
 const initialState = {
   minutes: '00',
@@ -7,7 +8,7 @@ const initialState = {
   isRunning: false
 }
 
-const formatNumber = (number) => number < 10 ? '0' + number : number.toString();
+const formatNumber = (number: number) => number < 10 ? '0' + number.toString() : number.toString();
 
 const timerSlice = createSlice({
   name: 'timer',
@@ -29,7 +30,7 @@ const timerSlice = createSlice({
 export const timerReducer = timerSlice.reducer;
 export const timerActions = timerSlice.actions;
 
-export const tick = (breakLength, sessionLength, audioRef) => (dispatch, getState) => {
+export const tick = (breakLength: number, sessionLength: number): any => (dispatch: AppDispatch, getState: any) => {
   const { minutes, seconds, timerLabel } = getState().timer;
 
   if (seconds === '00' && minutes === '00') {
@@ -38,16 +39,15 @@ export const tick = (breakLength, sessionLength, audioRef) => (dispatch, getStat
       minutes: timerLabel === 'Session' ? breakLength : sessionLength,
       seconds: 0
     }));
-    audioRef.current.play();
   } else if (seconds === '00') {
     dispatch(timerActions.setTimer({
-      minutes: minutes - 1,
+      minutes: Number(minutes) - 1,
       seconds: 59
     }));
   } else {
     dispatch(timerActions.setTimer({
       minutes: Number(minutes),
-      seconds: seconds - 1
+      seconds: Number(seconds) - 1
     }));
   }
 }

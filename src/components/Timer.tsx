@@ -1,6 +1,7 @@
 import '../styles/Timer.scss';
+import { TimerType } from '../types';
 
-const Timer = ({ timerLabel, minutes, seconds, handleClickStartStop, audioRef, handleClickReset }) => {
+const Timer = ({ timerLabel, minutes, seconds, handleClickStartStop, handleClickReset }: TimerType) => {
   return (
     <div className='timer-wrapper'>
       <div className='timer'>
@@ -8,9 +9,7 @@ const Timer = ({ timerLabel, minutes, seconds, handleClickStartStop, audioRef, h
         <div id='time-left'>{minutes}:{seconds}</div>
       </div>
       <div className='timer-controls'>
-        <div id='start_stop' className='hover' onClick={handleClickStartStop}>
-          <audio id='beep' src='./src/assets/alarm-beep.wav' ref={audioRef} autoPlay></audio>
-        </div>
+        <div id='start_stop' className='hover' onClick={handleClickStartStop}></div>
         <div id='reset' className='hover' onClick={handleClickReset}></div>
       </div>
     </div>
