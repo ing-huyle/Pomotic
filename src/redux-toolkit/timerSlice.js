@@ -17,8 +17,8 @@ const timerSlice = createSlice({
       state.minutes = formatNumber(action.payload.minutes);
       state.seconds = formatNumber(action.payload.seconds);
     },
-    setTimerLabel: (state) => {
-      state.timerLabel = state.timerLabel === 'Session' ? 'Break' : 'Session';
+    setTimerLabel: (state, action) => {
+      state.timerLabel = action.payload;
     },
     setIsRunning: (state, action) => {
       state.isRunning = action.payload;

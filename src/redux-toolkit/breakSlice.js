@@ -1,7 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit';
 
 const initialState = {
-  breakLength: 5
+  breakLength: 4
 }
 
 const breakSlice = createSlice({

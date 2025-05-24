@@ -61,10 +61,10 @@ const App = () => {
   };
 
   const handleClickReset = () => {
-    dispatch(breakActions.setBreakLength(5))
-    dispatch(sessionActions.setSessionLength(25))
+    dispatch(breakActions.setBreakLength(4))
+    dispatch(sessionActions.setSessionLength(20))
     dispatch(timerActions.setTimerLabel('Session'));
-    dispatch(timerActions.setTimer({ minutes: 25, seconds: 0 }));
+    dispatch(timerActions.setTimer({ minutes: 20, seconds: 0 }));
     dispatch(timerActions.setIsRunning(false));
     clearInterval(intervalRef.current);
     audioRef.current.pause();
@@ -73,7 +73,7 @@ const App = () => {
 
   return (
     <div className='clock'>
-      <h1>25 + 5 Clock</h1>
+      <h1>Pomodoro</h1>
       <div className='setting'>
         <LengthSetting isSession={false} length={breakLength} handleClick={handleClickBreak} />
         <LengthSetting isSession={true} length={sessionLength} handleClick={handleClickSession} />
