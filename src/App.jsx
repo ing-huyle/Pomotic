@@ -79,9 +79,7 @@ const App = () => {
         <LengthSetting isSession={true} length={sessionLength} handleClick={handleClickSession} />
       </div>
       <Timer timerLabel={timerLabel} minutes={minutes} seconds={seconds} handleClickStartStop={handleClickStartStop} audioRef={audioRef} handleClickReset={handleClickReset} />
-      <p>Coded by<a href='https://www.linkedin.com/in/ing-huyle' target='_blank'>ing.huyle</a><br/>
-        Designed by freeCodeCamp
-      </p>
+      <p>Coded by <a href='https://www.linkedin.com/in/ing-huyle' target='_blank'>ing<span>.</span>huyle</a></p>
     </div>
   )
 }

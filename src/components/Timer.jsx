@@ -9,7 +9,7 @@ const Timer = ({ timerLabel, minutes, seconds, handleClickStartStop, audioRef, h
       </div>
       <div className='timer-controls'>
         <div id='start_stop' className='hover' onClick={handleClickStartStop}>
-          <audio id='beep' src='./src/alarm-beep.wav' ref={audioRef} autoPlay></audio>
+          <audio id='beep' src='./src/assets/alarm-beep.wav' ref={audioRef} autoPlay></audio>
         </div>
         <div id='reset' className='hover' onClick={handleClickReset}></div>
       </div>

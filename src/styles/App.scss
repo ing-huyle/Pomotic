@@ -30,11 +30,16 @@ p {
 
 p > a {
   text-decoration: none;
-  color: #000000;
-  background-color: #FFF1C0;
-  padding: 3px;
-  margin-inline: 3px;
-  border-radius: 3px;
+  color: #ffffff;
+  padding-bottom: 1px;
+  border-radius: 2px;
+  border-bottom: 0.25em solid #FFD000;
+
+  span {
+    color: #FFD000;
+    font-size: 1.5em;
+    font-weight: 700;
+  }
 }
 
 @media (max-width: 480px) {  
@@ -55,11 +60,5 @@ p > a {
     font-size: 12px;
     line-height: 1.3;
     margin-top: 0;
-  }
-
-  p > a {
-    padding: 2px;
-    margin-inline: 3px;
-    border-radius: 3px;
   }
 }
